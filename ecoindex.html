@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack - App de Hábitos Ecológicos</title>
+    <style>
+        /* Estilos de la app */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: rgba(237, 235, 230, 255);
+            color: #2e7d32;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Contenedor principal con scroll */
+        .container {
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh; /* Limita la altura para el scroll */
+            overflow-y: auto; /* Activa el desplazamiento vertical */
+            margin: 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        /* Estilos del Dashboard */
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        /* Botones */
+        button, input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-green {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .btn-back {
+            background-color: #ff7043;
+            color: white;
+            width: auto;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            margin-top: 20px;
+        }
+
+        /* Listas */
+        .list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-item {
+            padding: 10px;
+            background: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            margin: 5px 0;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        /* Emoji */
+        .emoji {
+            font-size: 30px;
+            margin: 10px 0;
+        }
+
+        /* Barra de Progreso */
+        .progress-container {
+            margin-top: 10px;
+            height: 30px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: #4caf50;
+            transition: width 0.4s;
+        }
+
+        /* Mensaje de recompensa */
+        .reward-message {
+            font-weight: bold;
+            margin-top: 15px;
+            color: #4caf50;
+        }
+
+        /* Estilo de recompensa */
+        .reward-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard-section">
+            <h1> 🌱</h1>
+            <p>Motivando un estilo de vida sostenible</p>
+
+            <!-- Registro de Hábito Ecológico -->
+            <div class="card">
+                <h3>Registrar Hábito Ecológico</h3>
+                <select id="habit-options">
+                    <option value="">Seleccionar Hábito</option>
+                    <option value="Reciclar">Reciclar</option>
+                    <option value="Ahorrar Agua">Ahorrar Agua</option>
+                    <option value="Usar Transporte Ecológico">Usar Transporte Ecológico</option>
+                    <option value="Comer Vegetales">Comer Vegetales</option>
+                </select>
+                <input type="date" id="habit-date" placeholder="Elegir Fecha" />
+                <button class="btn-green" id="register-habit-button">Registrar Hábito</button>
+            </div>
+
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Progreso</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                    <p id="progress-text">0% de tus objetivos alcanzados</p>
+                </div>
+
+                <div class="card">
+                    <h3>Recompensas</h3>
+                    <div class="emoji">🎁</div>
+                    <p id="reward-message" class="reward-message"></p>
+                    <button class="btn-green" id="check-rewards-button">Ver Recompensas</button>
+                    <ul id="reward-list" class="reward-list">
+                        <li class="list-item">10%: Obtienes una insignia de "Iniciado" 🎉</li>
+                        <li class="list-item">25%: Acceso a consejos exclusivos para hábitos ecológicos 🌿</li>
+                        <li class="list-item">50%: Descuento en productos ecológicos en nuestra tienda 🛒</li>
+                        <li class="list-item">75%: Participación en un sorteo de un kit ecológico 🌍</li>
+                        <li class="list-item">100%: Certificado de "Eco-Guerrero" 🏆</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Notificaciones</h3>
+                    <div class="emoji">🔔</div>
+                    <p id="notification-text">Tienes 0 hábitos registrados.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Historial de Hábitos</h3>
+                    <div class="emoji">📅</div>
+                    <button class="btn-green" id="view-habits-button">Ver Hábitos Registrados</button>
+                </div>
+
+                <div class="card">
+                    <h3>Limpiar Historial</h3>
+                    <div class="emoji">🧹</div>
+                    <button class="btn-green" id="clear-habits-button">Limpiar Historial</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Hábitos -->
+        <div id="habits-section" style="display: none;">
+            <h2>Hábitos Registrados</h2>
+            <ul id="habit-list" class="list">
+                <!-- Aquí se agregarán los hábitos -->
+            </ul>
+            <button class="btn-back" id="back-to-dashboard-button">Volver al Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        // Variables
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const notificationText = document.getElementById('notification-text');
+        const habitList = document.getElementById('habit-list');
+        let progress = 0;
+
+        // Manejo de registro de hábito
+        document.getElementById('register-habit-button').addEventListener('click', function () {
+            const habitSelect = document.getElementById('habit-options');
+            const habitDate = document.getElementById('habit-date').value;
+            const selectedHabit = habitSelect.value;
+
+            if (selectedHabit && habitDate) {
+                // Aumentar progreso en 1%
+                progress += 1;
+                progressBar.style.width = `${progress}%`;
+                progressText.innerText = `${progress}% de tus objetivos alcanzados`;
+
+                // Agregar el hábito a la lista
+                const habitItem = document.createElement('li');
+                habitItem.className = 'list-item';
+                habitItem.innerText = `${selectedHabit} registrado el ${habitDate}`;
+                habitList.appendChild(habitItem);
+
+                // Actualizar notificaciones
+                notificationText.innerText = `Tienes ${progress} hábito(s) registrado(s).`;
+
+                // Limpiar campos
+                habitSelect.selectedIndex = 0;
+                document.getElementById('habit-date').value = '';
+
+                // Mostrar recompensas según progreso
+                if (progress === 10) {
+                    document.getElementById('reward-message').innerText = '¡Has alcanzado el 10%! 🎉';
+                }
+                if (progress === 25) {
+                    document.getElementById('reward-message').innerText = '¡Has alcanzado el 25%! 🌿';
+                }
+                if (progress === 50) {
+                    document.getElementById('reward-message').innerText = '¡Has alcanzado el 50%! 🛒';
+                }
+                if (progress === 75) {
+                    document.getElementById('reward-message').innerText = '¡Has alcanzado el 75%! 🌍';
+                }
+                if (progress === 100) {
+                    document.getElementById('reward-message').innerText = '¡Has alcanzado el 100%! 🏆';
+                }
+            } else {
+                alert('Por favor, selecciona un hábito y una fecha.');
+            }
+        });
+
+        // Botones de navegación
+        document.getElementById('view-habits-button').addEventListener('click', function () {
+            document.getElementById('dashboard-section').style.display = 'none';
+            document.getElementById('habits-section').style.display = 'block';
+        });
+
+        document.getElementById('back-to-dashboard-button').addEventListener('click', function () {
+            document.getElementById('dashboard-section').style.display = 'block';
+            document.getElementById('habits-section').style.display = 'none';
+        });
+
+        // Limpiar historial de hábitos
+        document.getElementById('clear-habits-button').addEventListener('click', function () {
+            habitList.innerHTML = '';
+            progress = 0;
+            progressBar.style.width = `${progress}%`;
+            progressText.innerText = `${progress}% de tus objetivos alcanzados`;
+            notificationText.innerText = `Tienes ${progress} hábitos registrados.`;
+            document.getElementById('reward-message').innerText = '';
+        });
+    </script>
+</body>
+</html>
